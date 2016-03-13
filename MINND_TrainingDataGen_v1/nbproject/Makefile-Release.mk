@@ -37,7 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/gnuplot_i.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/pcg_basic.o
+	${OBJECTDIR}/pcg_basic.o \
+	${OBJECTDIR}/phomod.o
 
 
 # C Compiler Flags
@@ -78,6 +79,11 @@ ${OBJECTDIR}/pcg_basic.o: pcg_basic.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pcg_basic.o pcg_basic.c
+
+${OBJECTDIR}/phomod.o: phomod.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/phomod.o phomod.c
 
 # Subprojects
 .build-subprojects:
