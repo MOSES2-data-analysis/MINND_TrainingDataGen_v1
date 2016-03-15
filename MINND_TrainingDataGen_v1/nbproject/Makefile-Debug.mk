@@ -35,10 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/fomod.o \
 	${OBJECTDIR}/gnuplot_i.o \
+	${OBJECTDIR}/lmbd_convert.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/pcg_basic.o \
-	${OBJECTDIR}/phomod.o
+	${OBJECTDIR}/pcg_basic.o
 
 
 # C Compiler Flags
@@ -65,10 +66,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_trainingdatagen_v1: ${OBJECTFIL
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_trainingdatagen_v1 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/fomod.o: fomod.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fomod.o fomod.c
+
 ${OBJECTDIR}/gnuplot_i.o: gnuplot_i.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/gnuplot_i.o gnuplot_i.c
+
+${OBJECTDIR}/lmbd_convert.o: lmbd_convert.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lmbd_convert.o lmbd_convert.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
@@ -79,11 +90,6 @@ ${OBJECTDIR}/pcg_basic.o: pcg_basic.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pcg_basic.o pcg_basic.c
-
-${OBJECTDIR}/phomod.o: phomod.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/phomod.o phomod.c
 
 # Subprojects
 .build-subprojects:

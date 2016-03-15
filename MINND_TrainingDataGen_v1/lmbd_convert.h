@@ -5,28 +5,25 @@
  */
 
 /* 
- * File:   phomod.h
+ * File:   lmbd_convert.h
  * Author: byrdie
  *
- * Created on March 12, 2016, 2:50 PM
+ * Created on March 14, 2016, 11:43 AM
  */
 
-#ifndef PHOMOD_H
-#define PHOMOD_H
+#ifndef LMBD_CONVERT_H
+#define LMBD_CONVERT_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-#include <stdlib.h>
-#include <stdio.h>
 
-    void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus[], int cube[][spectral_dim]);
+
 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* PHOMOD_H */
+#endif /* LMBD_CONVERT_H */
 

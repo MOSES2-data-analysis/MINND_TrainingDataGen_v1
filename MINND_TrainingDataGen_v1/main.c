@@ -25,7 +25,7 @@
 
 #include "pcg_basic.h"
 #include "gnuplot_i.h"
-#include "phomod.h"
+#include "fomod.h"
 
 /*
  * 
@@ -47,13 +47,14 @@ int main(int argc, char** argv) {
     //struct pixel
 
     /* Store the dimensions of the input data cube */
+    int channels = 3;
     int x_dim = 4;
     int lambda_dim = 4;
     int total_pix = x_dim * lambda_dim;
 
     /* Allocate memory for the input cube */
-    int cube[x_dim][lambda_dim];
-    memset(cube, 0, x_dim * lambda_dim * sizeof (int));
+    int cube[x_dim][lambda_dim][channels];
+    memset(cube, 0, channels * x_dim * lambda_dim * sizeof (int));
 
     /* Find random coordinates for next point */
     int x = (int) pcg32_boundedrand_r(&rng, x_dim);
@@ -66,18 +67,20 @@ int main(int argc, char** argv) {
     int I = (int) pcg32_boundedrand_r(&rng, max_dn);
 
     /* Activate randomized pixel */
-    cube[x][y] = I;
+    cube[x][y][PLUS] = I;
+    cube[x][y][ZERO] = I;
+    cube[x][y][MINUS] = I;
 
-    /* Save image to disk */
+    /* Save cube to disk */
     char * cube_path = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1/training_data/cube.bin";
     FILE * fp = fopen(cube_path, "wb");
-    fwrite(cube, sizeof (int), total_pix, fp);
+    fwrite(cube, sizeof (int), total_pix*channels, fp);
     fclose(fp);
 
     /* Plot input cube for testing */
     char cmd_str[200];
     sprintf(cmd_str, "plot '%s' binary array=(%d,%d) ", cube_path, x_dim, lambda_dim);
-    strcat(cmd_str, " rotation=-90d format='%%uchar%%uchar%%uchar%%uchar' with image");
+    strcat(cmd_str, " rotation=-90d format='%%int%%int%%int' with rgbimage");
     //    printf(cmd_str);
     gnuplot_cmd(h, cmd_str);
 
@@ -88,7 +91,7 @@ int main(int argc, char** argv) {
     int minus[outboard_sz];
 
     /* Execute MOSES forward model */
-    phomod(x_dim, lambda_dim, plus, zero, minus, cube);
+    fomod(channels, x_dim, lambda_dim, plus, zero, minus, cube);
 
     /* Save results of forward model to disk */
     /* Zero order */
@@ -115,6 +118,24 @@ int main(int argc, char** argv) {
     //    gnuplot_cmd(h, "set xrange [0:4]");
     gnuplot_cmd(h, "plot '%s' binary array=(%d) format='%%int' with lines", minus_path, outboard_sz);
 
+
+    /* Execute reverse forward model to put in format for Neural Network */
+    int cnn_cube[x_dim][lambda_dim][channels];
+    memset(cnn_cube, 0, channels * x_dim * lambda_dim * sizeof (int));
+    reverse_fomod(channels, x_dim, lambda_dim, plus, zero, minus, cnn_cube);
+
+    /* Save CNN input cube to disk */
+    char * cnn_cube_path = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1/training_data/cnn_cube.bin";
+    fp = fopen(cnn_cube_path, "wb");
+    fwrite(cnn_cube, sizeof (int), total_pix*channels, fp);
+    fclose(fp);
+
+    /* Plot input cube for testing */
+    cmd_str[200];
+    sprintf(cmd_str, "plot '%s' binary array=(%d,%d) ", cnn_cube_path, x_dim, lambda_dim);
+    strcat(cmd_str, " rotation=-90d format='%%int%%int%%int' with rgbimage");
+    //    printf(cmd_str);
+    gnuplot_cmd(h, cmd_str);
 
     /* Stop program until we're finished looking at the results */
     pause();

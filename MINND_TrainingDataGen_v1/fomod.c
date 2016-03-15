@@ -12,9 +12,9 @@
  * 
  */
 
-#include "phomod.h"
+#include "fomod.h"
 
-void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus[], int cube[][spectral_dim]) {
+void fomod(int channels, int spatial_dim, int spectral_dim, int plus[], int zero[], int minus[], int cube[][spectral_dim][channels]) {
 
     printf("\n");
 
@@ -26,7 +26,7 @@ void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus
 
         /* Sum across each spectral component */
         for (int j = 0; j < spectral_dim; j++) {
-            sum += cube[i][j];
+            sum += cube[i][j][ZERO];
         }
 
         printf("%d \n", sum);
@@ -48,7 +48,7 @@ void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus
 
 
             if (i >= 0 && i < spatial_dim) {
-                sum += cube[i][j];
+                sum += cube[i][j][ZERO];
             }
 
         }
@@ -72,7 +72,7 @@ void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus
 
 
             if (i >= 0 && i < spatial_dim) {
-                sum += cube[i][j];
+                sum += cube[i][j][ZERO];
             }
 
         }
@@ -80,4 +80,35 @@ void phomod(int spatial_dim, int spectral_dim, int plus[], int zero[], int minus
         minus[m] = sum;
         printf("%d \n", sum);
     }
+}
+
+/**
+ * This program attempts to run the forward model in reverse. Since the forward 
+ * model loses information, this function can only describe the maximum possible
+ * value of the pixel at every location. Information from each of the 3 orders
+ * is encoded into the RGB channels.
+ * 
+ * @param spatial_dim: Size of spatial dimension in pixels
+ * @param spectral_dim: Size of spectral dimension in pixels
+ * @param plus: 1D input array containing the positive order results of fomod
+ * @param zero
+ * @param minus
+ * @param cube : 2D Output array
+ */
+void reverse_fomod(int channels, int spatial_dim, int spectral_dim, int plus[], int zero[], int minus[], int max_cube[][spectral_dim][channels]){
+    
+    
+    /* Loop across cube */
+    for(int i = 0; i < spatial_dim; i++){
+        for(int j = 0; j < spectral_dim; j++){
+            
+            /* postive order: least significant */
+            /* negative order: most significant bits */
+            max_cube[i][j][PLUS] = plus[(spatial_dim - 1 - j) + i];
+            max_cube[i][j][ZERO] = zero[i];
+            max_cube[i][j][MINUS] = minus[i + j];
+            
+        }
+    }
+    
 }
