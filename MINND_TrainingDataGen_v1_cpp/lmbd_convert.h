@@ -14,11 +14,30 @@
 #ifndef LMBD_CONVERT_H
 #define LMBD_CONVERT_H
 
-#include <lmdb.h>
-#include "caffe/include/util/format.hpp"
-#include "caffe/src/proto/caffe.pb.h"
+#include <stdint.h>
+#include <sys/stat.h>
+#include <fstream>  // NOLINT(readability/streams)
+#include <string>
 
-void convert_dataset()
+#include <gflags/gflags.h>
+#include <glog/logging.h>
+#include <google/protobuf/text_format.h>
+#include <lmdb.h>
+
+#include "caffe/include/caffe/util/format.hpp"
+#include "caffe/build/src/caffe/proto/caffe.pb.h"
+#include "fomod.h"
+
+void open_input_db(char db_path[]);
+void open_truth_db(char db_path[]);
+void add_to_input_db(int item_id, int image[][SPECTRAL_DIM][CHANNELS]);
+void add_to_truth_db(int item_id, int image[][SPECTRAL_DIM][CHANNELS]);
+void close_input_db();
+void close_truth_db();
+
+void convert_dataset(char db_path[], int image[][SPECTRAL_DIM][CHANNELS]);
+
+
 
 #endif /* LMBD_CONVERT_H */
 

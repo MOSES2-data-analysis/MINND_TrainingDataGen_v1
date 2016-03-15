@@ -22,5 +22,9 @@
 #include "fomod.h"
 #include "lmbd_convert.h"
 
+#define NUM_EXP = 1000
+
+void single_image_gen();
+
 #endif /* MAIN_H */
 

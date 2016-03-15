@@ -46,7 +46,45 @@
         </cTool>
         <ccTool>
           <standard>8</standard>
+          <incDir>
+            <pElem>caffe/include</pElem>
+            <pElem>caffe/build/src</pElem>
+          </incDir>
         </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_trainingdatagen_v1_cpp</output>
+          <linkerAddLib>
+            <pElem>caffe/src</pElem>
+            <pElem>caffe/src/proto</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerOptionItem>`pkg-config --libs protobuf`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs libglog`</linkerOptionItem>
+            <linkerOptionItem>`pkg-config --libs libgflags`</linkerOptionItem>
+            <linkerLibLibItem>boost_system</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
+            <linkerLibLibItem>hdf5</linkerLibLibItem>
+            <linkerLibLibItem>hdf5_hl</linkerLibLibItem>
+            <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_filesystem.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_filesystem.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_system.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_system.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_cpp.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_cpp.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so</linkerLibFileItem>
+            <linkerLibFileItem>caffe/build/lib/libcaffe.a</linkerLibFileItem>
+            <linkerLibFileItem>caffe/build/lib/libcaffe.so</linkerLibFileItem>
+            <linkerOptionItem>`pkg-config --libs protobuf-lite`</linkerOptionItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libprotobuf.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libprotobuf.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libglog.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libglog.so</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/liblmdb.a</linkerLibFileItem>
+            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/liblmdb.so</linkerLibFileItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="fomod.cpp" ex="false" tool="1" flavor2="0">
       </item>

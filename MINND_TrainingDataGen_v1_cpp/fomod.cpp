@@ -16,7 +16,6 @@
 
 void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNELS]) {
 
-    printf("\n");
 
     /* Construct zero order image */
     /* Loop through spatial coordinate */
@@ -29,11 +28,8 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
             sum += cube[i][j][ZERO];
         }
 
-        printf("%d \n", sum);
         zero[i] = sum; // Put the results of the sum into the output array
     }
-
-    printf("\n");
 
     /* Construct positive order image */
     for (int m = 0; m < (SPATIAL_DIM + SPECTRAL_DIM - 1); m++) {
@@ -54,10 +50,8 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
         }
 
         plus[m] = sum;
-        printf("%d \n", sum);
     }
 
-    printf("\n");
 
     /* Construct negative order image */
     for (int m = 0; m < (SPATIAL_DIM + SPECTRAL_DIM - 1); m++) {
@@ -78,7 +72,6 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
         }
 
         minus[m] = sum;
-        printf("%d \n", sum);
     }
 }
 
