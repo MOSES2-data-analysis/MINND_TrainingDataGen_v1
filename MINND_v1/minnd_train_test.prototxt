@@ -1,0 +1,260 @@
+name: "MINND_v1"
+# Data layer for storing input images
+# These images are the results of the MOSES forward model
+layer{
+	name: 	"minnd_input"
+	type: 	"Data"
+	top:	"input"
+	top:	"input_label"
+	
+	include {
+		phase: TEST
+	}
+	
+	# Scale from [0,255] to [0,1]
+	transform_param {
+    	scale: 0.00390625
+	}
+	
+	data_param {
+		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/testing_data/minnd_input_LMBD"
+		batch_size: 100
+		backend: LMDB
+	}
+}
+
+# Data layer for storing truth images.
+# These images are the input to the MOSES forward model
+layer{
+	name: 	"minnd_truth"
+	type: 	"Data"
+	top:	"truth"
+	top:	"truth_label"
+	
+	include {
+		phase: TEST
+	}
+	
+	# Scale from [0,255] to [0,1]
+	transform_param {
+    	scale: 0.00390625
+	}
+	
+	data_param {
+		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/testing_data/minnd_truth_LMBD"
+		batch_size: 100
+		backend: LMDB
+	}
+}
+
+layer{
+	name: 	"minnd_input"
+	type: 	"Data"
+	top:	"input"
+	top:	"input_label"
+	
+	include {
+		phase: TRAIN
+	}
+	
+	# Scale from [0,255] to [0,1]
+	transform_param {
+    	scale: 0.00390625
+	}
+	
+	data_param {
+		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/minnd_input_LMBD"
+		batch_size: 100
+		backend: LMDB
+	}
+}
+
+# Data layer for storing truth images.
+# These images are the input to the MOSES forward model
+layer{
+	name: 	"minnd_truth"
+	type: 	"Data"
+	top:	"truth"
+	top:	"truth_label"
+	
+	include {
+		phase: TRAIN
+	}
+	
+	# Scale from [0,255] to [0,1]
+	transform_param {
+    	scale: 0.00390625
+	}
+	
+	data_param {
+		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/minnd_truth_LMBD"
+		batch_size: 100
+		backend: LMDB
+	}
+}
+
+# First Convolutional Layer
+layer {
+	name: 	"conv1"
+	type: 	"Convolution"
+	bottom: "input"
+	top: 	"conv1"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+	# learning rate and decay multipliers for the biases
+	param { lr_mult: 2 decay_mult: 0 }
+  
+	convolution_param {
+		num_output:		6
+		kernel_size:	2
+		stride:			1
+
+		weight_filler {
+		  type: "gaussian" # initialize the filters from a Gaussian
+		  std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  type: "constant" # initialize the biases to zero (0)
+		  value: 0
+		}
+    }
+}
+
+# Second Convolutional Layer
+layer {
+	name: 	"conv2"
+	type: 	"Convolution"
+	bottom: "conv1"
+	top: 	"conv2"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
+  
+	convolution_param {	
+	  	num_output:		12
+	  	kernel_size:	2
+	  	stride:			1
+	  
+	  	weight_filler {
+		  	type: "gaussian" # initialize the filters from a Gaussian
+		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  	type: "constant" # initialize the biases to zero (0)
+		  	value: 0
+		}
+    }
+}
+
+# First fully-connected layer
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "conv2"
+	top: "ip1"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
+  	
+	inner_product_param {
+		num_output: 64
+	
+	  	weight_filler {
+		  	type: "gaussian" # initialize the filters from a Gaussian
+		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  	type: "constant" # initialize the biases to zero (0)
+		  	value: 0
+		}
+    }
+}
+
+# Rectified Linear Unit layer
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "ip1"
+  top: "ip1"
+}
+
+# Second fully-connected layer
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
+  	
+	inner_product_param {
+		num_output: 96	
+	
+	  	weight_filler {
+		  	type: "gaussian" # initialize the filters from a Gaussian
+		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  	type: "constant" # initialize the biases to zero (0)
+		  	value: 0
+		}
+    }
+}
+
+# Reshape to be the same dimensions as the truth
+layer {
+	name: "reshape"
+	type: "Reshape"
+	bottom: "ip2"
+	top: "reshape"
+	reshape_param {
+		shape {
+			dim: 0  # copy the dimension from below
+			dim: 2	
+			dim: 48
+			#dim: -1 # infer it from the other dimensions
+		}
+	}
+}
+
+layer {
+	name: "accuracy"
+	type: "Accuracy"
+	bottom: "reshape"
+	bottom: "truth"
+	top: "accuracy"
+	include {
+		phase: TEST
+  	}
+}
+
+layer {
+	name: "loss"
+	type: "SoftmaxWithLoss"
+	bottom: "reshape"
+	bottom: "truth"
+	top: "loss"
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
