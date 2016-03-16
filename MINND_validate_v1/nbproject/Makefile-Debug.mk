@@ -52,25 +52,65 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=/usr/lib/x86_64-linux-gnu/libboost_filesystem.a /usr/lib/x86_64-linux-gnu/libboost_system.a /usr/lib/x86_64-linux-gnu/libgflags.a /usr/lib/x86_64-linux-gnu/libglog.a /usr/lib/x86_64-linux-gnu/libhdf5_cpp.a /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.a /usr/lib/x86_64-linux-gnu/libprotobuf.a
+LDLIBSOPTIONS=/usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so /usr/lib/x86_64-linux-gnu/libhdf5_cpp.so /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.a /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.so /usr/local/cuda-7.5/lib64/libcudart.so /usr/local/cuda-7.5/lib64/libcudart_static.a /usr/local/cuda-7.5/lib64/libcublas.so /usr/local/cuda-7.5/lib64/libcublas_static.a /usr/local/cuda-7.5/lib64/libcurand.so /usr/local/cuda-7.5/lib64/libcurand_static.a /usr/lib/x86_64-linux-gnu/libglog.so /usr/lib/x86_64-linux-gnu/libgflags.a /usr/lib/x86_64-linux-gnu/libgflags.so /usr/lib/x86_64-linux-gnu/libprotobuf.a /usr/lib/x86_64-linux-gnu/libprotobuf.so /usr/lib/x86_64-linux-gnu/libboost_filesystem.a /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.a /usr/lib/x86_64-linux-gnu/libboost_system.so -lm /usr/lib/x86_64-linux-gnu/libboost_thread.a /usr/lib/x86_64-linux-gnu/libboost_thread.so /usr/local/cuda-7.5/lib64/libcudnn.so /usr/local/cuda-7.5/lib64/libcudnn_static.a /usr/lib/libblas.a /usr/lib/libblas.so -lpthread -ldl `pkg-config --libs opencv` `pkg-config --libs zlib` /usr/lib/x86_64-linux-gnu/libhdf5.so /usr/lib/x86_64-linux-gnu/libhdf5_hl.so  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_filesystem.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_system.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_cpp.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcudart.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcudart_static.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcublas.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcublas_static.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcurand.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcurand_static.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libglog.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libgflags.a
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libglog.a
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_cpp.a
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.a
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libgflags.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libprotobuf.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libprotobuf.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_filesystem.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_system.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_system.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_thread.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libboost_thread.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcudnn.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcudnn_static.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/libblas.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/libblas.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_hl.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
@@ -79,7 +119,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/include -I/usr/local/cuda-7.5/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/src `pkg-config --cflags opencv` `pkg-config --cflags zlib` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
