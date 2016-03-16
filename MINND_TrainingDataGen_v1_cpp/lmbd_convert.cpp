@@ -44,7 +44,7 @@ void open_truth_db(char db_path[]) {
     CHECK_EQ(mdb_open(mdb_txn1, NULL, 0, &mdb_dbi1), MDB_SUCCESS) << "mdb_open failed. Does the lmdb already exist? ";
 }
 
-void add_to_input_db(int item_id, int image[][SPECTRAL_DIM][CHANNELS]) {
+void add_to_input_db(int item_id, int image[][SPECTRAL_DIM][SPATIAL_DIM]) {
     /* Define parameters of input data */
     Datum datum;
     datum.set_channels(3);
@@ -71,7 +71,7 @@ void add_to_input_db(int item_id, int image[][SPECTRAL_DIM][CHANNELS]) {
     }
 }
 
-void add_to_truth_db(int item_id, int image[][SPECTRAL_DIM][CHANNELS]) {
+void add_to_truth_db(int item_id, int image[][SPECTRAL_DIM][SPATIAL_DIM]) {
 
     /* Define parameters of input data */
     Datum datum;

@@ -14,7 +14,7 @@
 
 #include "fomod.h"
 
-void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNELS]) {
+void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
 
 
     /* Construct zero order image */
@@ -25,7 +25,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
 
         /* Sum across each spectral component */
         for (int j = 0; j < SPECTRAL_DIM; j++) {
-            sum += cube[i][j][ZERO];
+            sum += cube[ZERO][j][i];
         }
 
         zero[i] = sum; // Put the results of the sum into the output array
@@ -44,7 +44,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
 
 
             if (i >= 0 && i < SPATIAL_DIM) {
-                sum += cube[i][j][ZERO];
+                sum += cube[ZERO][j][i];
             }
 
         }
@@ -66,7 +66,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
 
 
             if (i >= 0 && i < SPATIAL_DIM) {
-                sum += cube[i][j][ZERO];
+                sum += cube[ZERO][j][i];
             }
 
         }
@@ -88,7 +88,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][CHANNEL
  * @param minus
  * @param cube : 2D Output array
  */
-void reverse_fomod(int plus[], int zero[], int minus[], int max_cube[][SPECTRAL_DIM][CHANNELS]) {
+void reverse_fomod(int plus[], int zero[], int minus[], int max_cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
 
 
     /* Loop across cube */
@@ -97,9 +97,9 @@ void reverse_fomod(int plus[], int zero[], int minus[], int max_cube[][SPECTRAL_
 
             /* postive order: least significant */
             /* negative order: most significant bits */
-            max_cube[i][j][PLUS] = plus[(SPATIAL_DIM - 1 - j) + i];
-            max_cube[i][j][ZERO] = zero[i];
-            max_cube[i][j][MINUS] = minus[i + j];
+            max_cube[PLUS][j][i] = plus[(SPATIAL_DIM - 1 - j) + i];
+            max_cube[ZERO][j][i] = zero[i];
+            max_cube[MINUS][j][i] = minus[i + j];
 
         }
     }
