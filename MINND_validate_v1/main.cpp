@@ -26,17 +26,22 @@ using namespace caffe;
 int main(int argc, char** argv) {
 
     /* Set up directories */
-    string model_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/minnd_train_test.prototxt";
+    string model_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/minnd_deploy.prototxt";
     string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_10000.solverstate";
 
-    shared_ptr<Net<float> > net_;
-    
+    /* Variable declaration */
+    shared_ptr<Net<float> > net_; // Neural Network model
+    int num_channels_;
+
     /* Enable GPU mode */
     Caffe::set_mode(Caffe::GPU);
 
     /* Load the network. */
     net_.reset(new Net<float>(model_file, TEST));
     net_->CopyTrainedLayersFrom(trained_file);
+
+//    CHECK_EQ(net_->num_inputs(), 1) << "Network should have exactly one input.";
+//    CHECK_EQ(net_->num_outputs(), 1) << "Network should have exactly one output.";
 
     return 0;
 }

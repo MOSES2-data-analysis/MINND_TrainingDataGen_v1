@@ -44,32 +44,25 @@
           </incDir>
         </ccTool>
         <linkerTool>
+          <linkerDynSerch>
+            <pElem>/usr/local/cuda/lib64</pElem>
+            <pElem>/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib</pElem>
+          </linkerDynSerch>
           <linkerLibItems>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libhdf5_cpp.so</linkerLibFileItem>
-            <linkerLibFileItem>/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.a</linkerLibFileItem>
             <linkerLibFileItem>/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.so</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcudart.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcudart_static.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcublas.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcublas_static.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcurand.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcurand_static.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libglog.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libgflags.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libgflags.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libprotobuf.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libprotobuf.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_filesystem.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_filesystem.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_system.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_system.so</linkerLibFileItem>
             <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
-            <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_thread.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/x86_64-linux-gnu/libboost_thread.so</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcudnn.so</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/cuda-7.5/lib64/libcudnn_static.a</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib/libblas.a</linkerLibFileItem>
             <linkerLibFileItem>/usr/lib/libblas.so</linkerLibFileItem>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibStdlibItem>DynamicLinking</linkerLibStdlibItem>
