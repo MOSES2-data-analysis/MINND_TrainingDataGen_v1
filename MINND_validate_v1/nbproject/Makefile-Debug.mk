@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so /usr/lib/x86_64-linux-gnu/libhdf5_cpp.so /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.so /usr/local/cuda-7.5/lib64/libcudart.so /usr/local/cuda-7.5/lib64/libcublas.so /usr/local/cuda-7.5/lib64/libcurand.so /usr/lib/x86_64-linux-gnu/libglog.so /usr/lib/x86_64-linux-gnu/libgflags.so /usr/lib/x86_64-linux-gnu/libprotobuf.so /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so -lm /usr/lib/x86_64-linux-gnu/libboost_thread.so /usr/local/cuda-7.5/lib64/libcudnn.so /usr/lib/libblas.so -lpthread -ldl `pkg-config --libs opencv` `pkg-config --libs zlib` /usr/lib/x86_64-linux-gnu/libhdf5.so /usr/lib/x86_64-linux-gnu/libhdf5_hl.so  
+LDLIBSOPTIONS=-Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,caffe_no_cudann/build/lib -Wl,-rpath,/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so /usr/lib/x86_64-linux-gnu/libhdf5_cpp.so /usr/local/cuda-7.5/lib64/libcudart.so /usr/local/cuda-7.5/lib64/libcublas.so /usr/local/cuda-7.5/lib64/libcurand.so /usr/lib/x86_64-linux-gnu/libglog.so /usr/lib/x86_64-linux-gnu/libgflags.so /usr/lib/x86_64-linux-gnu/libprotobuf.so /usr/lib/x86_64-linux-gnu/libboost_filesystem.so /usr/lib/x86_64-linux-gnu/libboost_system.so -lm /usr/lib/x86_64-linux-gnu/libboost_thread.so /usr/local/cuda-7.5/lib64/libcudnn.so /usr/lib/libblas.so -lpthread -ldl `pkg-config --libs zlib` /usr/lib/x86_64-linux-gnu/libhdf5.so /usr/lib/x86_64-linux-gnu/libhdf5_hl.so caffe_no_cudann/build/lib/libcaffe.so /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_core.so /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_highgui.so /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_imgproc.so  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -61,8 +61,6 @@ LDLIBSOPTIONS=-Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/home/byrdie/NetBeansP
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_hl_cpp.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_cpp.so
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/lib/libcaffe.so
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/local/cuda-7.5/lib64/libcudart.so
 
@@ -90,6 +88,14 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-li
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /usr/lib/x86_64-linux-gnu/libhdf5_hl.so
 
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: caffe_no_cudann/build/lib/libcaffe.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_core.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_highgui.so
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: /home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/build/lib/libopencv_imgproc.so
+
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1 ${OBJECTFILES} ${LDLIBSOPTIONS}
@@ -97,7 +103,7 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minnd_validate_v1: ${OBJECTFILES}
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/include -I/usr/local/cuda-7.5/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/caffe/build/src `pkg-config --cflags opencv` `pkg-config --cflags zlib` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I/usr/local/cuda-7.5/include -Icaffe_no_cudann/build/src -Icaffe_no_cudann/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/modules/core/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/modules/highgui/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/modules/imgproc/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/modules/imgcodecs/include -I/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/opencv-3.1.0/modules/videoio/include `pkg-config --cflags zlib` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
