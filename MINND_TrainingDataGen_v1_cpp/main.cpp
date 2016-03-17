@@ -7,7 +7,7 @@
 #include "main.h"
 
 #define MAX_DN 0xFF
-#define DATASET_SZ 100000
+#define DATASET_SZ 1e5
 
 
 using namespace std;
@@ -48,6 +48,8 @@ void dataset_gen() {
     /* Open database for storing input and truth data sets */
     char db_input_path[] = "training_data/minnd_input_LMBD";
     char db_truth_path[] = "training_data/minnd_truth_LMBD";
+//    char db_input_path[] = "testing_data/minnd_input_LMBD";
+//    char db_truth_path[] = "testing_data/minnd_truth_LMBD";
     open_input_db(db_input_path);
     open_truth_db(db_truth_path);
 
@@ -184,5 +186,5 @@ void single_image_gen() {
     g4.cmd(cmd_str);
 
     /* Stop program until we're finished looking at the results */
-    pause();
+//    pause();
 }

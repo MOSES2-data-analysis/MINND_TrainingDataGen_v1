@@ -1,0 +1,106 @@
+name: "MINND_v1"
+# Data layer for storing input images
+# These images are the results of the MOSES forward model
+input: "input"
+input_shape {
+	dim: 1
+	dim: 3
+	dim: 4
+	dim: 4
+}
+
+# First Convolutional Layer
+layer {
+	name: 	"conv1"
+	type: 	"Convolution"
+	bottom: "input"
+	top: 	"conv1"
+ 
+	convolution_param {
+		num_output:		6
+		kernel_size:	2
+		stride:			1
+    }
+}
+
+# Second Convolutional Layer
+layer {
+	name: 	"conv2"
+	type: 	"Convolution"
+	bottom: "conv1"
+	top: 	"conv2"
+  
+	convolution_param {	
+	  	num_output:		12
+	  	kernel_size:	2
+	  	stride:			1
+    }
+}
+
+# First fully-connected layer
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "conv2"
+	top: "ip1"
+	
+  	
+	inner_product_param {
+		num_output: 64
+    }
+}
+
+# Rectified Linear Unit layer
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "ip1"
+  top: "ip1"
+}
+
+# Second fully-connected layer
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	
+  	
+	inner_product_param {
+		num_output: 48	
+    }
+}
+
+# Reshape to be the same dimensions as the truth
+layer {
+	name: "reshape_ip2"
+	type: "Reshape"
+	bottom: "ip2"
+	top: "reshape_ip2"
+	reshape_param {
+		shape {
+			dim: 0  # copy the dimension from below
+			dim: 1	
+			dim: 48
+			dim: -1 # infer it from the other dimensions
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

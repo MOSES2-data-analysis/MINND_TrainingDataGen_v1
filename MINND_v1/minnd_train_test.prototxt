@@ -108,7 +108,7 @@ layer {
 
 		weight_filler {
 		  type: "gaussian" # initialize the filters from a Gaussian
-		  std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		  std: 0.1        # distribution with stdev 0.01 (default mean: 0)
 		}
 		bias_filler {
 		  type: "constant" # initialize the biases to zero (0)
@@ -136,7 +136,7 @@ layer {
 	  
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
-		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
 		}
 		bias_filler {
 		  	type: "constant" # initialize the biases to zero (0)
@@ -162,7 +162,7 @@ layer {
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
-		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
 		}
 		bias_filler {
 		  	type: "constant" # initialize the biases to zero (0)
@@ -196,7 +196,7 @@ layer {
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
-		  	std: 0.01        # distribution with stdev 0.01 (default mean: 0)
+		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
 		}
 		bias_filler {
 		  	type: "constant" # initialize the biases to zero (0)
@@ -207,16 +207,31 @@ layer {
 
 # Reshape to be the same dimensions as the truth
 layer {
-	name: "reshape"
+	name: "reshape_ip2"
 	type: "Reshape"
 	bottom: "ip2"
-	top: "reshape"
+	top: "reshape_ip2"
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
 			dim: 1	
 			dim: 48
-			#dim: -1 # infer it from the other dimensions
+			dim: -1 # infer it from the other dimensions
+		}
+	}
+}
+
+layer {
+	name: "reshape_truth"
+	type: "Reshape"
+	bottom: "truth"
+	top: "reshape_truth"
+	reshape_param {
+		shape {
+			dim: 0  # copy the dimension from below
+			dim: 1	
+			dim: 48
+			dim: -1 # infer it from the other dimensions
 		}
 	}
 }
@@ -224,10 +239,9 @@ layer {
 layer {
 	name: "loss"
 	type: "EuclideanLoss"
-	bottom: "reshape"
-	bottom: "truth"
-	top: "loss"
-	
+	bottom: "reshape_truth"
+	bottom: "reshape_ip2"
+	top: "loss"	
 }
 
 

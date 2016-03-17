@@ -159,26 +159,49 @@ int main(int argc, char** argv) {
 
 
         output_row[i] = *(output_layer->cpu_data() + i) * 25.0;
+        std::cout << output_row[i] << "   ";
 
     }
-    for (int i = 0; i < CHANNELS; ++i) {
-        for (int j = 0; j < SPECTRAL_DIM; ++j) {
-            for (int k = 0; k < SPATIAL_DIM; ++k) {
-                output_cube[i][j][k]=output_row[k + SPATIAL_DIM * (j + SPECTRAL_DIM * i)];
-                std::cout << output_cube[i][j][k] << "   ";
-            }
-            std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+
+    //    for (int i = 0; i < CHANNELS; ++i) {
+    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+        for (int k = 0; k < SPATIAL_DIM; ++k) {
+            output_cube[0][j][k] = output_row[j + SPECTRAL_DIM * k];
+            //                std::cout << output_cube[k][j][i] << "   ";
         }
-        std::cout << std::endl;
-        std::cout << std::endl;
+    }
+    //    }
+    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+        for (int k = 0; k < SPATIAL_DIM; ++k) {
+            output_cube[1][j][k] = output_row[j + SPECTRAL_DIM * k];
+            //                std::cout << output_cube[k][j][i] << "   ";
+        }
+    }
+    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+        for (int k = 0; k < SPATIAL_DIM; ++k) {
+            output_cube[2][j][k] = output_row[j + SPECTRAL_DIM * k];
+            //                std::cout << output_cube[k][j][i] << "   ";
+        }
     }
 
-    cv::Mat out_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[0]),cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[0])};
+    cv::Mat out_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[2])};
     cv::Mat out_image;
     cv::merge(out_chan, 3, out_image);
     /* Display input image */
-    cv::namedWindow("Output window", cv::WINDOW_FREERATIO); // Create a window for display.
-    cv::imshow("Output window", out_image);
+//    cv::namedWindow("Output window", cv::WINDOW_FREERATIO); // Create a window for display.
+//    cv::namedWindow("Output window 1", cv::WINDOW_FREERATIO); // Create a window for display.
+//    cv::namedWindow("Output window 2", cv::WINDOW_FREERATIO); // Create a window for display.
+    cv::namedWindow("Output window 3", cv::WINDOW_FREERATIO); // Create a window for display.
+
+
+//    cv::imshow("Output window", out_chan[0]);
+//    cv::imshow("Output window 1", out_chan[1]);
+//    cv::imshow("Output window 2", out_chan[2]);
+    cv::imshow("Output window 3", out_image);
+
 
 
     cv::waitKey(0);
