@@ -25,6 +25,7 @@
 #define NUM_EXP = 1000
 
 void single_image_gen();
+void dataset_gen();
 
 #endif /* MAIN_H */
 

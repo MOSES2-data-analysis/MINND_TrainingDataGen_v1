@@ -14,14 +14,14 @@
 
 #include "fomod.h"
 
-void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
+void fomod(float plus[], float zero[], float minus[], float cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
 
 
     /* Construct zero order image */
     /* Loop through spatial coordinate */
     for (int i = 0; i < SPATIAL_DIM; i++) {
 
-        int sum = 0; // Intermediate variable to store the sum of each column
+        float sum = 0; // Intermediate variable to store the sum of each column
 
         /* Sum across each spectral component */
         for (int j = 0; j < SPECTRAL_DIM; j++) {
@@ -34,7 +34,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL
     /* Construct positive order image */
     for (int m = 0; m < (SPATIAL_DIM + SPECTRAL_DIM - 1); m++) {
 
-        int sum = 0; // Store the sum of each spectral direction
+        float sum = 0; // Store the sum of each spectral direction
 
         /* Sum across spectral dimension */
         for (int n = 0; n < SPECTRAL_DIM; n++) {
@@ -56,7 +56,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL
     /* Construct negative order image */
     for (int m = 0; m < (SPATIAL_DIM + SPECTRAL_DIM - 1); m++) {
 
-        int sum = 0; // Store the sum of each spectral direction
+        float sum = 0; // Store the sum of each spectral direction
 
         /* Sum across spectral dimension */
         for (int n = 0; n < SPECTRAL_DIM; n++) {
@@ -88,7 +88,7 @@ void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL
  * @param minus
  * @param cube : 2D Output array
  */
-void reverse_fomod(int plus[], int zero[], int minus[], int max_cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
+void reverse_fomod(float plus[], float zero[], float minus[], float max_cube[][SPECTRAL_DIM][SPATIAL_DIM]) {
 
 
     /* Loop across cube */

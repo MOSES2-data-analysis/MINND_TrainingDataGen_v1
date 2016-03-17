@@ -30,8 +30,8 @@
 
 void open_input_db(char db_path[]);
 void open_truth_db(char db_path[]);
-void add_to_input_db(int item_id, int image[][SPECTRAL_DIM][SPATIAL_DIM]);
-void add_to_truth_db(int item_id, int image[][SPECTRAL_DIM][SPATIAL_DIM]);
+void add_to_input_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]);
+void add_to_truth_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]);
 void close_input_db();
 void close_truth_db();
 

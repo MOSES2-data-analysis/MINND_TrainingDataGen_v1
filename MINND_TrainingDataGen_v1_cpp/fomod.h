@@ -21,9 +21,9 @@
 #include <stdlib.h>
 #include <iostream>
 
-    void fomod(int plus[], int zero[], int minus[], int cube[][SPECTRAL_DIM][SPATIAL_DIM]);
+    void fomod(float plus[], float zero[], float minus[], float cube[][SPECTRAL_DIM][SPATIAL_DIM]);
     
-    void reverse_fomod(int plus[], int zero[], int minus[], int max_cube[][SPECTRAL_DIM][SPATIAL_DIM]);
+    void reverse_fomod(float plus[], float zero[], float minus[], float max_cube[][SPECTRAL_DIM][SPATIAL_DIM]);
     
 
     enum orders {
