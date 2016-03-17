@@ -5,7 +5,6 @@ layer{
 	name: 	"minnd_input"
 	type: 	"Data"
 	top:	"input"
-	top:	"input_label"
 	
 	include {
 		phase: TEST
@@ -29,7 +28,6 @@ layer{
 	name: 	"minnd_truth"
 	type: 	"Data"
 	top:	"truth"
-	top:	"truth_label"
 	
 	include {
 		phase: TEST
@@ -51,7 +49,6 @@ layer{
 	name: 	"minnd_input"
 	type: 	"Data"
 	top:	"input"
-	top:	"input_label"
 	
 	include {
 		phase: TRAIN
@@ -75,7 +72,6 @@ layer{
 	name: 	"minnd_truth"
 	type: 	"Data"
 	top:	"truth"
-	top:	"truth_label"
 	
 	include {
 		phase: TRAIN
@@ -196,7 +192,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 96	
+		num_output: 48	
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
@@ -218,7 +214,7 @@ layer {
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
-			dim: 2	
+			dim: 1	
 			dim: 48
 			#dim: -1 # infer it from the other dimensions
 		}
@@ -226,19 +222,8 @@ layer {
 }
 
 layer {
-	name: "accuracy"
-	type: "Accuracy"
-	bottom: "reshape"
-	bottom: "truth"
-	top: "accuracy"
-	include {
-		phase: TEST
-  	}
-}
-
-layer {
 	name: "loss"
-	type: "SoftmaxWithLoss"
+	type: "EuclideanLoss"
 	bottom: "reshape"
 	bottom: "truth"
 	top: "loss"

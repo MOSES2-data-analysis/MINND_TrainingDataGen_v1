@@ -4,3 +4,5 @@
 /convert_mnist_data/dist/
 /MINND_TrainingDataGen_v1_cpp/build/
 /MINND_TrainingDataGen_v1_cpp/dist/
+/MINND_validate_v1/build/
+/MINND_validate_v1/dist/
