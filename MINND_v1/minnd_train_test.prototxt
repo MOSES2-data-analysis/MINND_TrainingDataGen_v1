@@ -3,8 +3,9 @@ name: "MINND_v1"
 # These images are the results of the MOSES forward model
 layer{
 	name: 	"minnd_input"
-	type: 	"Data"
+	type: 	"ImageData"
 	top:	"input"
+	top:	"input_label"
 	
 	include {
 		phase: TEST
@@ -15,19 +16,21 @@ layer{
     	scale: 0.00390625
 	}
 	
-	data_param {
-		source: "/minnd/testing_data/minnd_input_LMBD"
+	image_data_param {
+		source: "/minnd/images/test/input/index.txt"
 		batch_size: 100
-		backend: LMDB
 	}
 }
+
+
 
 # Data layer for storing truth images.
 # These images are the input to the MOSES forward model
 layer{
 	name: 	"minnd_truth"
-	type: 	"Data"
+	type: 	"ImageData"
 	top:	"truth"
+	top:	"truth_label"
 	
 	include {
 		phase: TEST
@@ -38,17 +41,19 @@ layer{
     	scale: 0.00390625
 	}
 	
-	data_param {
-		source: "/minnd/testing_data/minnd_truth_LMBD"
+	image_data_param {
+		source: "/minnd/images/test/truth/index.txt"	
 		batch_size: 100
-		backend: LMDB
 	}
 }
+
+
 
 layer{
 	name: 	"minnd_input"
-	type: 	"Data"
+	type: 	"ImageData"
 	top:	"input"
+	top:	"input_label"
 	
 	include {
 		phase: TRAIN
@@ -59,19 +64,20 @@ layer{
     	scale: 0.00390625
 	}
 	
-	data_param {
-		source: "/minnd/training_data/minnd_input_LMBD"
+	image_data_param {
+		source: "/minnd/images/train/input/index.txt"
 		batch_size: 100
-		backend: LMDB
 	}
 }
+
 
 # Data layer for storing truth images.
 # These images are the input to the MOSES forward model
 layer{
 	name: 	"minnd_truth"
-	type: 	"Data"
+	type: 	"ImageData"
 	top:	"truth"
+	top:	"truth_label"
 	
 	include {
 		phase: TRAIN
@@ -82,11 +88,22 @@ layer{
     	scale: 0.00390625
 	}
 	
-	data_param {
-		source: "/minnd/training_data/minnd_truth_LMBD"
+	image_data_param {
+		source: "/minnd/images/train/truth/index.txt"
 		batch_size: 100
-		backend: LMDB
 	}
+}
+
+layer {
+	name: "silence1"
+	type: "Silence"
+	bottom: "input_label"
+}
+
+layer {
+	name: "silence2"
+	type: "Silence"
+	bottom: "truth_label"
 }
 
 # First Convolutional Layer
@@ -217,6 +234,8 @@ layer {
 		}
     }
 }
+
+
 
 # Rectified Linear Unit layer
 layer {

@@ -15,9 +15,9 @@ using namespace std;
 int main(int argc, char** argv) {
 
     /* Test function to generate single image */
-//    single_image_gen();
+    single_image_gen();
     
-    dataset_gen();
+//    dataset_gen();
 
 
 

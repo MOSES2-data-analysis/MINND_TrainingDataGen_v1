@@ -18,6 +18,8 @@
 #include <random>
 #include <string.h>
 #include <chrono>
+#include <iostream>
+#include <fstream>
 
 #include "fomod.h"
 #include "opencv2/core.hpp"

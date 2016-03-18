@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 
     /* Set up directories */
     string model_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/minnd_deploy.prototxt";
-    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_100000.caffemodel";
+    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_10000.caffemodel";
     char input_path[] = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/cnn_cube.bin";
 
     /* Variable declaration */
@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
     //((n * K + k) * H + h) * W + w;
 
     for (int i = 0; i < CHANNELS * SPECTRAL_DIM * SPATIAL_DIM; i++) {
-        output_row[i] = *(output_layer->cpu_data() + i) * 20.0;
+        output_row[i] = *(output_layer->cpu_data() + i);
         std::cout << output_row[i] << "   ";
 
         if (i == SPATIAL_DIM * SPECTRAL_DIM - 1 || i == 2 * SPATIAL_DIM * SPECTRAL_DIM - 1) {
@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
     for (int k = 0; k < CHANNELS; k++) {
         for (int h = 0; h < SPECTRAL_DIM; h++) {
             for (int w = 0; w < SPATIAL_DIM; w++) {
-                output_cube[k][w][h] = output_row[w + SPATIAL_DIM * (h + SPECTRAL_DIM * k)];
+                output_cube[k][h][w] = output_row[w + SPATIAL_DIM * (h + SPECTRAL_DIM * k)];
             }
         }
     }
@@ -248,7 +248,6 @@ int main(int argc, char** argv) {
     //    cv::imshow("Output window 2", out_chan[2]);
     cv::imshow("Output window 3", out_image);
 
-    caffe::ReadImageToDatum()
 
 
     cv::waitKey(0);
