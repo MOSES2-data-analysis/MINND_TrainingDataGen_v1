@@ -31,6 +31,21 @@
 using std::string;
 using namespace caffe;
 
+void rot90(cv::Mat &matImage, int rotflag){
+  //1=CW, 2=CCW, 3=180
+  if (rotflag == 1){
+    transpose(matImage, matImage);  
+    flip(matImage, matImage,1); //transpose+flip(1)=CW
+  } else if (rotflag == 2) {
+    transpose(matImage, matImage);  
+    flip(matImage, matImage,0); //transpose+flip(0)=CCW     
+  } else if (rotflag ==3){
+    flip(matImage, matImage,-1);    //flip(-1)=180          
+  } else if (rotflag != 0){ //if not 0,1,2,3:
+    std::cout  << "Unknown rotation flag(" << rotflag << ")" << std::endl;
+  }
+}
+
 /*
  * 
  */
@@ -43,7 +58,7 @@ int main(int argc, char** argv) {
 
     /* Set up directories */
     string model_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/minnd_deploy.prototxt";
-    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_10000.caffemodel";
+    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_100000.caffemodel";
     char input_path[] = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/cnn_cube.bin";
 
     /* Variable declaration */
@@ -64,6 +79,7 @@ int main(int argc, char** argv) {
     num_channels_ = input_layer->channels();
     CHECK(num_channels_ == 3 || num_channels_ == 1) << "Input layer should have 1 or 3 channels.";
 
+    
     /* Select the output layer from the network */
     Blob<float>* output_layer = net_->output_blobs()[0];
     std::cout << output_layer->shape(0) << " " << output_layer->shape(1) << " " << output_layer->shape(2) << std::endl;
@@ -115,6 +131,7 @@ int main(int argc, char** argv) {
 
     }
 
+    
     /* This operation will write the separate BGR planes directly to the
      * input layer of the network because it is wrapped by the cv::Mat
      * objects in input_channels. */
@@ -158,7 +175,7 @@ int main(int argc, char** argv) {
     for (int i = 0; i < CHANNELS * SPATIAL_DIM * SPECTRAL_DIM; i++) {
 
 
-        output_row[i] = *(output_layer->cpu_data() + i) * 25.0;
+        output_row[i] = *(output_layer->cpu_data() + i) * 10.0;
         std::cout << output_row[i] << "   ";
 
     }
@@ -190,6 +207,9 @@ int main(int argc, char** argv) {
     cv::Mat out_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[2])};
     cv::Mat out_image;
     cv::merge(out_chan, 3, out_image);
+//    rot90(out_image,2);
+    cv::flip(out_image, out_image, 1);
+    
     /* Display input image */
 //    cv::namedWindow("Output window", cv::WINDOW_FREERATIO); // Create a window for display.
 //    cv::namedWindow("Output window 1", cv::WINDOW_FREERATIO); // Create a window for display.

@@ -67,16 +67,41 @@ layer {
 	
   	
 	inner_product_param {
+		num_output: 128	
+    }
+}
+
+# Rectified Linear Unit layer
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "ip2"
+  top: "ip2"
+}
+
+# Third fully-connected layer
+layer {
+	name: "ip3"
+	type: "InnerProduct"
+	bottom: "ip2"
+	top: "ip3"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
+  	
+	inner_product_param {
 		num_output: 48	
     }
 }
 
 # Reshape to be the same dimensions as the truth
 layer {
-	name: "reshape_ip2"
+	name: "reshape_ip3"
 	type: "Reshape"
-	bottom: "ip2"
-	top: "reshape_ip2"
+	bottom: "ip3"
+	top: "reshape_ip3"
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
@@ -86,7 +111,6 @@ layer {
 		}
 	}
 }
-
 
 
 

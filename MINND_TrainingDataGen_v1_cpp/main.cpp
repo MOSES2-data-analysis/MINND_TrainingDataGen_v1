@@ -7,7 +7,7 @@
 #include "main.h"
 
 #define MAX_DN 0xFF
-#define DATASET_SZ 1e5
+#define DATASET_SZ 1e6
 
 
 using namespace std;
@@ -46,10 +46,10 @@ void dataset_gen() {
     float input_cube[CHANNELS][SPECTRAL_DIM][SPATIAL_DIM] = {0}; // Combination of results to feed into bottom of CNN
 
     /* Open database for storing input and truth data sets */
-    char db_input_path[] = "training_data/minnd_input_LMBD";
-    char db_truth_path[] = "training_data/minnd_truth_LMBD";
-//    char db_input_path[] = "testing_data/minnd_input_LMBD";
-//    char db_truth_path[] = "testing_data/minnd_truth_LMBD";
+    char db_input_path[] = "/minnd/training_data/minnd_input_LMBD";
+    char db_truth_path[] = "/minnd/training_data/minnd_truth_LMBD";
+//    char db_input_path[] = "/minnd/testing_data/minnd_input_LMBD";
+//    char db_truth_path[] = "/minnd/testing_data/minnd_truth_LMBD";
     open_input_db(db_input_path);
     open_truth_db(db_truth_path);
 

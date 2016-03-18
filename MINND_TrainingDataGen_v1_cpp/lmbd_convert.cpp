@@ -50,12 +50,13 @@ void add_to_input_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]) {
     datum.set_channels(3);
     datum.set_height(SPECTRAL_DIM);
     datum.set_width(SPATIAL_DIM);
-    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM);
+    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof(float));
 
     /* Calculate input strings*/
     string value;
     string key_str = caffe::format_int(item_id, 8);
     datum.SerializeToString(&value);
+    
 
     /* Write to database */
     mdb_data0.mv_size = value.size();
@@ -78,8 +79,7 @@ void add_to_truth_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]) {
     datum.set_channels(3);
     datum.set_height(SPECTRAL_DIM);
     datum.set_width(SPATIAL_DIM);
-    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM);
-//    datum.set_float_data()
+    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof(float));
     
     
     /* Calculate input strings*/

@@ -16,7 +16,7 @@ layer{
 	}
 	
 	data_param {
-		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/testing_data/minnd_input_LMBD"
+		source: "/minnd/testing_data/minnd_input_LMBD"
 		batch_size: 100
 		backend: LMDB
 	}
@@ -39,7 +39,7 @@ layer{
 	}
 	
 	data_param {
-		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/testing_data/minnd_truth_LMBD"
+		source: "/minnd/testing_data/minnd_truth_LMBD"
 		batch_size: 100
 		backend: LMDB
 	}
@@ -60,7 +60,7 @@ layer{
 	}
 	
 	data_param {
-		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/minnd_input_LMBD"
+		source: "/minnd/training_data/minnd_input_LMBD"
 		batch_size: 100
 		backend: LMDB
 	}
@@ -83,7 +83,7 @@ layer{
 	}
 	
 	data_param {
-		source: "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/minnd_truth_LMBD"
+		source: "/minnd/training_data/minnd_truth_LMBD"
 		batch_size: 100
 		backend: LMDB
 	}
@@ -102,8 +102,8 @@ layer {
 	param { lr_mult: 2 decay_mult: 0 }
   
 	convolution_param {
-		num_output:		6
-		kernel_size:	2
+		num_output:		24
+		kernel_size:	3
 		stride:			1
 
 		weight_filler {
@@ -130,7 +130,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   
 	convolution_param {	
-	  	num_output:		12
+	  	num_output:		48
 	  	kernel_size:	2
 	  	stride:			1
 	  
@@ -192,6 +192,40 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
+		num_output: 128	
+	
+	  	weight_filler {
+		  	type: "gaussian" # initialize the filters from a Gaussian
+		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  	type: "constant" # initialize the biases to zero (0)
+		  	value: 0
+		}
+    }
+}
+
+# Rectified Linear Unit layer
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "ip2"
+  top: "ip2"
+}
+
+# Third fully-connected layer
+layer {
+	name: "ip3"
+	type: "InnerProduct"
+	bottom: "ip2"
+	top: "ip3"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
+  	
+	inner_product_param {
 		num_output: 48	
 	
 	  	weight_filler {
@@ -207,10 +241,10 @@ layer {
 
 # Reshape to be the same dimensions as the truth
 layer {
-	name: "reshape_ip2"
+	name: "reshape_ip3"
 	type: "Reshape"
-	bottom: "ip2"
-	top: "reshape_ip2"
+	bottom: "ip3"
+	top: "reshape_ip3"
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
@@ -240,7 +274,7 @@ layer {
 	name: "loss"
 	type: "EuclideanLoss"
 	bottom: "reshape_truth"
-	bottom: "reshape_ip2"
+	bottom: "reshape_ip3"
 	top: "loss"	
 }
 

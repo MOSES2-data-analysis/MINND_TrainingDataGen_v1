@@ -24,6 +24,7 @@
 #include <google/protobuf/text_format.h>
 #include <lmdb.h>
 
+//#include "caffe/caffe.hpp"
 #include "caffe/include/caffe/util/format.hpp"
 #include "caffe/build/src/caffe/proto/caffe.pb.h"
 #include "fomod.h"
