@@ -17,31 +17,43 @@ layer {
 	top: 	"conv1"
  
 	convolution_param {
-		num_output:		6
-		kernel_size:	2
+		num_output:		24
+		kernel_size:	3
 		stride:			1
     }
 }
 
-# Second Convolutional Layer
 layer {
-	name: 	"conv2"
-	type: 	"Convolution"
+	name: "pool1"
+	type: "Pooling"
 	bottom: "conv1"
-	top: 	"conv2"
-  
-	convolution_param {	
-	  	num_output:		12
-	  	kernel_size:	2
-	  	stride:			1
-    }
+	top: "pool1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 1
+	}
 }
+
+# Second Convolutional Layer
+#layer {
+#	name: 	"conv2"
+#	type: 	"Convolution"
+#	bottom: "conv1"
+#	top: 	"conv2"
+  
+#	convolution_param {	
+#	  	num_output:		48
+#	  	kernel_size:	2
+#	  	stride:			1
+#    }
+#}
 
 # First fully-connected layer
 layer {
 	name: "ip1"
 	type: "InnerProduct"
-	bottom: "conv2"
+	bottom: "pool1"
 	top: "ip1"
 	
   	
@@ -105,9 +117,9 @@ layer {
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
-			dim: 1	
-			dim: 48
-			dim: -1 # infer it from the other dimensions
+			dim: 3	
+			dim: 4
+			dim: 4 # infer it from the other dimensions
 		}
 	}
 }

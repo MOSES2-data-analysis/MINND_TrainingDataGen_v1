@@ -45,18 +45,35 @@ void open_truth_db(char db_path[]) {
 }
 
 void add_to_input_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]) {
+
+    float image_row[CHANNELS * SPECTRAL_DIM * SPATIAL_DIM];
+
     /* Define parameters of input data */
     Datum datum;
     datum.set_channels(3);
     datum.set_height(SPECTRAL_DIM);
     datum.set_width(SPATIAL_DIM);
-    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof(float));
+
+
+    for (int k = 0; k < CHANNELS; k++) {
+        for (int h = 0; h < SPECTRAL_DIM; h++) {
+            for (int w = 0; w < SPATIAL_DIM; w++) {
+                //                datum.set_float_data(w + SPATIAL_DIM * (h + SPECTRAL_DIM * k), image[k][w][h]);
+                image_row[w + SPATIAL_DIM * (h + SPECTRAL_DIM * k)] = image[k][w][h];
+
+            }
+        }
+    }
+
+    datum.set_data(image_row, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof (float));
+
+
 
     /* Calculate input strings*/
     string value;
     string key_str = caffe::format_int(item_id, 8);
     datum.SerializeToString(&value);
-    
+
 
     /* Write to database */
     mdb_data0.mv_size = value.size();
@@ -79,9 +96,9 @@ void add_to_truth_db(int item_id, float image[][SPECTRAL_DIM][SPATIAL_DIM]) {
     datum.set_channels(3);
     datum.set_height(SPECTRAL_DIM);
     datum.set_width(SPATIAL_DIM);
-    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof(float));
-    
-    
+    datum.set_data(image, CHANNELS * SPECTRAL_DIM * SPATIAL_DIM * sizeof (float));
+
+
     /* Calculate input strings*/
     string value;
     string key_str = caffe::format_int(item_id, 8);
@@ -150,7 +167,7 @@ void convert_dataset(char db_path[], int image[][SPECTRAL_DIM][CHANNELS]) {
     //    }
 
     /* Close database */
-//    CHECK_EQ(mdb_txn_commit(mdb_txn), MDB_SUCCESS) << "mdb_txn_commit failed";
-//    mdb_close(mdb_env, mdb_dbi);
-//    mdb_env_close(mdb_env);
+    //    CHECK_EQ(mdb_txn_commit(mdb_txn), MDB_SUCCESS) << "mdb_txn_commit failed";
+    //    mdb_close(mdb_env, mdb_dbi);
+    //    mdb_env_close(mdb_env);
 }

@@ -117,39 +117,52 @@ layer {
     }
 }
 
-# Second Convolutional Layer
+# Max pooling layer
 layer {
-	name: 	"conv2"
-	type: 	"Convolution"
+	name: "pool1"
+	type: "Pooling"
 	bottom: "conv1"
-	top: 	"conv2"
+	top: "pool1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 1
+	}
+}
+
+# Second Convolutional Layer
+#layer {
+#	name: 	"conv2"
+#	type: 	"Convolution"
+#	bottom: "conv1"
+#	top: 	"conv2"
 	
 	# learning rate and decay multipliers for the filters
-	param { lr_mult: 1 decay_mult: 1 }
+#	param { lr_mult: 1 decay_mult: 1 }
   	# learning rate and decay multipliers for the biases
-  	param { lr_mult: 2 decay_mult: 0 }
-  
-	convolution_param {	
-	  	num_output:		48
-	  	kernel_size:	2
-	  	stride:			1
-	  
-	  	weight_filler {
-		  	type: "gaussian" # initialize the filters from a Gaussian
-		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
-		}
-		bias_filler {
-		  	type: "constant" # initialize the biases to zero (0)
-		  	value: 0
-		}
-    }
-}
+#  	param { lr_mult: 2 decay_mult: 0 }
+#  
+#	convolution_param {	
+#	  	num_output:		48
+#	  	kernel_size:	2
+#	  	stride:			1
+#	  
+#	  	weight_filler {
+#		  	type: "gaussian" # initialize the filters from a Gaussian
+#		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
+#		}
+#		bias_filler {
+#		  	type: "constant" # initialize the biases to zero (0)
+#		  	value: 0
+#		}
+#    }
+#}
 
 # First fully-connected layer
 layer {
 	name: "ip1"
 	type: "InnerProduct"
-	bottom: "conv2"
+	bottom: "pool1"
 	top: "ip1"
 	
 	# learning rate and decay multipliers for the filters
@@ -248,32 +261,32 @@ layer {
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
-			dim: 1	
-			dim: 48
-			dim: -1 # infer it from the other dimensions
+			dim: 3	
+			dim: 4
+			dim: 4
 		}
 	}
 }
 
-layer {
-	name: "reshape_truth"
-	type: "Reshape"
-	bottom: "truth"
-	top: "reshape_truth"
-	reshape_param {
-		shape {
-			dim: 0  # copy the dimension from below
-			dim: 1	
-			dim: 48
-			dim: -1 # infer it from the other dimensions
-		}
-	}
-}
+#layer {
+#	name: "reshape_truth"
+#	type: "Reshape"
+#	bottom: "truth"
+#	top: "reshape_truth"
+#	reshape_param {
+#		shape {
+#			dim: 0  # copy the dimension from below
+#			dim: 1	
+#			dim: 48
+#			dim: -1 # infer it from the other dimensions
+#		}
+#	}
+#}
 
 layer {
 	name: "loss"
 	type: "EuclideanLoss"
-	bottom: "reshape_truth"
+	bottom: "truth"
 	bottom: "reshape_ip3"
 	top: "loss"	
 }

@@ -31,19 +31,19 @@
 using std::string;
 using namespace caffe;
 
-void rot90(cv::Mat &matImage, int rotflag){
-  //1=CW, 2=CCW, 3=180
-  if (rotflag == 1){
-    transpose(matImage, matImage);  
-    flip(matImage, matImage,1); //transpose+flip(1)=CW
-  } else if (rotflag == 2) {
-    transpose(matImage, matImage);  
-    flip(matImage, matImage,0); //transpose+flip(0)=CCW     
-  } else if (rotflag ==3){
-    flip(matImage, matImage,-1);    //flip(-1)=180          
-  } else if (rotflag != 0){ //if not 0,1,2,3:
-    std::cout  << "Unknown rotation flag(" << rotflag << ")" << std::endl;
-  }
+void rot90(cv::Mat &matImage, int rotflag) {
+    //1=CW, 2=CCW, 3=180
+    if (rotflag == 1) {
+        transpose(matImage, matImage);
+        flip(matImage, matImage, 1); //transpose+flip(1)=CW
+    } else if (rotflag == 2) {
+        transpose(matImage, matImage);
+        flip(matImage, matImage, 0); //transpose+flip(0)=CCW     
+    } else if (rotflag == 3) {
+        flip(matImage, matImage, -1); //flip(-1)=180          
+    } else if (rotflag != 0) { //if not 0,1,2,3:
+        std::cout << "Unknown rotation flag(" << rotflag << ")" << std::endl;
+    }
 }
 
 /*
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     num_channels_ = input_layer->channels();
     CHECK(num_channels_ == 3 || num_channels_ == 1) << "Input layer should have 1 or 3 channels.";
 
-    
+
     /* Select the output layer from the network */
     Blob<float>* output_layer = net_->output_blobs()[0];
     std::cout << output_layer->shape(0) << " " << output_layer->shape(1) << " " << output_layer->shape(2) << std::endl;
@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
 
     }
 
-    
+
     /* This operation will write the separate BGR planes directly to the
      * input layer of the network because it is wrapped by the cv::Mat
      * objects in input_channels. */
@@ -171,57 +171,84 @@ int main(int argc, char** argv) {
     const std::vector<float> output = std::vector<float>(begin, end);
 
     float output_row[CHANNELS * SPATIAL_DIM * SPECTRAL_DIM];
+    //((n * K + k) * H + h) * W + w;
 
-    for (int i = 0; i < CHANNELS * SPATIAL_DIM * SPECTRAL_DIM; i++) {
-
-
-        output_row[i] = *(output_layer->cpu_data() + i) * 10.0;
+    for (int i = 0; i < CHANNELS * SPECTRAL_DIM * SPATIAL_DIM; i++) {
+        output_row[i] = *(output_layer->cpu_data() + i) * 20.0;
         std::cout << output_row[i] << "   ";
 
-    }
-    std::cout << std::endl;
-    std::cout << std::endl;
+        if (i == SPATIAL_DIM * SPECTRAL_DIM - 1 || i == 2 * SPATIAL_DIM * SPECTRAL_DIM - 1) {
+            std::cout << std::endl;
+        }
 
+    }
+    std::cout << std::endl << std::endl;
+
+
+    for (int k = 0; k < CHANNELS; k++) {
+        for (int h = 0; h < SPECTRAL_DIM; h++) {
+            for (int w = 0; w < SPATIAL_DIM; w++) {
+                output_cube[k][w][h] = output_row[w + SPATIAL_DIM * (h + SPECTRAL_DIM * k)];
+            }
+        }
+    }
+
+
+    /* Rescale validation image to range 0 - 1 */
+    for (int i = 0; i < CHANNELS; i++) {
+        for (int j = 0; j < SPECTRAL_DIM; j++) {
+            for (int k = 0; k < SPATIAL_DIM; k++) {
+                std::cout << output_cube[i][j][k] << "   ";
+            }
+            std::cout << std::endl;
+
+        }
+
+        std::cout << std::endl;
+        std::cout << std::endl;
+
+    }
 
     //    for (int i = 0; i < CHANNELS; ++i) {
-    for (int j = 0; j < SPECTRAL_DIM; ++j) {
-        for (int k = 0; k < SPATIAL_DIM; ++k) {
-            output_cube[0][j][k] = output_row[j + SPECTRAL_DIM * k];
-            //                std::cout << output_cube[k][j][i] << "   ";
-        }
-    }
+    //    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+    //        for (int k = 0; k < SPATIAL_DIM; ++k) {
+    //            output_cube[0][j][k] = output_row[j + SPECTRAL_DIM * k];
+    //            //                std::cout << output_cube[k][j][i] << "   ";
+    //        }
     //    }
-    for (int j = 0; j < SPECTRAL_DIM; ++j) {
-        for (int k = 0; k < SPATIAL_DIM; ++k) {
-            output_cube[1][j][k] = output_row[j + SPECTRAL_DIM * k];
-            //                std::cout << output_cube[k][j][i] << "   ";
-        }
-    }
-    for (int j = 0; j < SPECTRAL_DIM; ++j) {
-        for (int k = 0; k < SPATIAL_DIM; ++k) {
-            output_cube[2][j][k] = output_row[j + SPECTRAL_DIM * k];
-            //                std::cout << output_cube[k][j][i] << "   ";
-        }
-    }
+    //    //    }
+    //    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+    //        for (int k = 0; k < SPATIAL_DIM; ++k) {
+    //            output_cube[1][j][k] = output_row[j + SPECTRAL_DIM * k];
+    //            //                std::cout << output_cube[k][j][i] << "   ";
+    //        }
+    //    }
+    //    for (int j = 0; j < SPECTRAL_DIM; ++j) {
+    //        for (int k = 0; k < SPATIAL_DIM; ++k) {
+    //            output_cube[2][j][k] = output_row[j + SPECTRAL_DIM * k];
+    //            //                std::cout << output_cube[k][j][i] << "   ";
+    //        }
+    //    }
 
     cv::Mat out_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, output_cube[2])};
     cv::Mat out_image;
     cv::merge(out_chan, 3, out_image);
-//    rot90(out_image,2);
-    cv::flip(out_image, out_image, 1);
-    
+    //    rot90(out_image,2);
+//    cv::flip(out_image, out_image, 1);
+
     /* Display input image */
-//    cv::namedWindow("Output window", cv::WINDOW_FREERATIO); // Create a window for display.
-//    cv::namedWindow("Output window 1", cv::WINDOW_FREERATIO); // Create a window for display.
-//    cv::namedWindow("Output window 2", cv::WINDOW_FREERATIO); // Create a window for display.
+    //    cv::namedWindow("Output window", cv::WINDOW_FREERATIO); // Create a window for display.
+    //    cv::namedWindow("Output window 1", cv::WINDOW_FREERATIO); // Create a window for display.
+    //    cv::namedWindow("Output window 2", cv::WINDOW_FREERATIO); // Create a window for display.
     cv::namedWindow("Output window 3", cv::WINDOW_FREERATIO); // Create a window for display.
 
 
-//    cv::imshow("Output window", out_chan[0]);
-//    cv::imshow("Output window 1", out_chan[1]);
-//    cv::imshow("Output window 2", out_chan[2]);
+    //    cv::imshow("Output window", out_chan[0]);
+    //    cv::imshow("Output window 1", out_chan[1]);
+    //    cv::imshow("Output window 2", out_chan[2]);
     cv::imshow("Output window 3", out_image);
 
+    caffe::ReadImageToDatum()
 
 
     cv::waitKey(0);

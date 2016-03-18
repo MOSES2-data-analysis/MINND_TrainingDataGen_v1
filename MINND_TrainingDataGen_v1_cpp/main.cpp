@@ -15,9 +15,9 @@ using namespace std;
 int main(int argc, char** argv) {
 
     /* Test function to generate single image */
-    single_image_gen();
+//    single_image_gen();
     
-//    dataset_gen();
+    dataset_gen();
 
 
 
@@ -46,10 +46,10 @@ void dataset_gen() {
     float input_cube[CHANNELS][SPECTRAL_DIM][SPATIAL_DIM] = {0}; // Combination of results to feed into bottom of CNN
 
     /* Open database for storing input and truth data sets */
-    char db_input_path[] = "/minnd/training_data/minnd_input_LMBD";
-    char db_truth_path[] = "/minnd/training_data/minnd_truth_LMBD";
-//    char db_input_path[] = "/minnd/testing_data/minnd_input_LMBD";
-//    char db_truth_path[] = "/minnd/testing_data/minnd_truth_LMBD";
+//    char db_input_path[] = "/minnd/training_data/minnd_input_LMBD";
+//    char db_truth_path[] = "/minnd/training_data/minnd_truth_LMBD";
+    char db_input_path[] = "/minnd/testing_data/minnd_input_LMBD";
+    char db_truth_path[] = "/minnd/testing_data/minnd_truth_LMBD";
     open_input_db(db_input_path);
     open_truth_db(db_truth_path);
 
