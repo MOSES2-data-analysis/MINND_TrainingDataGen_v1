@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
     std::uniform_int_distribution<int> spatial_dist(0, SPATIAL_DIM - 1);
     std::uniform_int_distribution<int> spectral_dist(0, SPECTRAL_DIM - 1);
-    std::uniform_int_distribution<int> intensity_dist(50, MAX_DN);
+    std::uniform_int_distribution<int> intensity_dist(0, MAX_DN);
 
 
     /* Allocate memory */
