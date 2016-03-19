@@ -8,7 +8,7 @@
 
 #define MAX_DN 0xFF
 #define DATASET_SZ 1e6
-
+#define NUMPTS 5
 
 using namespace std;
 
@@ -16,8 +16,8 @@ int main(int argc, char** argv) {
 
     /* Test function to generate single image */
     single_image_gen();
-    
-//    dataset_gen();
+
+    //    dataset_gen();
 
 
 
@@ -36,6 +36,7 @@ void dataset_gen() {
     std::uniform_int_distribution<int> spatial_dist(0, SPATIAL_DIM - 1);
     std::uniform_int_distribution<int> spectral_dist(0, SPECTRAL_DIM - 1);
     std::uniform_int_distribution<int> intensity_dist(50, MAX_DN);
+    std::uniform_int_distribution<int> numpts_dist(1, NUMPTS);
 
 
     /* Allocate memory */
@@ -46,8 +47,8 @@ void dataset_gen() {
     float input_cube[CHANNELS][SPECTRAL_DIM][SPATIAL_DIM] = {0}; // Combination of results to feed into bottom of CNN
 
     /* Open database for storing input and truth data sets */
-//    char db_input_path[] = "/minnd/training_data/minnd_input_LMBD";
-//    char db_truth_path[] = "/minnd/training_data/minnd_truth_LMBD";
+    //    char db_input_path[] = "/minnd/training_data/minnd_input_LMBD";
+    //    char db_truth_path[] = "/minnd/training_data/minnd_truth_LMBD";
     char db_input_path[] = "/minnd/testing_data/minnd_input_LMBD";
     char db_truth_path[] = "/minnd/testing_data/minnd_truth_LMBD";
     open_input_db(db_input_path);
@@ -58,15 +59,21 @@ void dataset_gen() {
 
         memset(truth_cube, 0, channels * x_dim * lambda_dim * sizeof (int));
 
-        /* Draw new X, Y and intensity values */
-        int x = spatial_dist(generator); // generates number in the range 0 ... MAX_DN
-        int y = spectral_dist(generator);
-        float I = intensity_dist(generator);
+        int numpts = numpts_dist(generator);
 
-        /* Activate randomized pixel */
-        truth_cube[PLUS][y][x] = I;
-        truth_cube[ZERO][y][x] = I;
-        truth_cube[MINUS][y][x] = I;
+        for (int count = 0; count < numpts; count++) {
+
+            /* Draw new X, Y and intensity values */
+            int x = spatial_dist(generator); // generates number in the range 0 ... MAX_DN
+            int y = spectral_dist(generator);
+            float I = intensity_dist(generator);
+
+            /* Activate randomized pixel */
+            truth_cube[PLUS][y][x] = I;
+            truth_cube[ZERO][y][x] = I;
+            truth_cube[MINUS][y][x] = I;
+
+        }
 
         /* Execute MOSES forward model */
         fomod(plus, zero, minus, truth_cube);
@@ -96,22 +103,28 @@ void single_image_gen() {
     std::uniform_int_distribution<int> spatial_dist(0, SPATIAL_DIM - 1);
     std::uniform_int_distribution<int> spectral_dist(0, SPECTRAL_DIM - 1);
     std::uniform_int_distribution<int> intensity_dist(50, MAX_DN);
-
-    /* Draw new X, Y and intensity values */
-    int x = spatial_dist(generator); // generates number in the range 0 ... MAX_DN
-    int y = spectral_dist(generator);
-    float I = intensity_dist(generator);
-
-    std::cout << " " << x << " " << y << " " << I << "\n";
-
+    std::uniform_int_distribution<int> numpts_dist(1, NUMPTS);
 
     /* Allocate memory for the input cube */
     float cube[CHANNELS][SPECTRAL_DIM][SPATIAL_DIM] = {0};
 
-    /* Activate randomized pixel */
-    cube[PLUS][y][x] = I;
-    cube[ZERO][y][x] = I;
-    cube[MINUS][y][x] = I;
+    int numpts = numpts_dist(generator);
+
+    for (int count = 0; count < numpts; count++) {
+
+        /* Draw new X, Y and intensity values */
+        int x = spatial_dist(generator); // generates number in the range 0 ... MAX_DN
+        int y = spectral_dist(generator);
+        float I = intensity_dist(generator);
+
+        /* Activate randomized pixel */
+        cube[PLUS][y][x] = I;
+        cube[ZERO][y][x] = I;
+        cube[MINUS][y][x] = I;
+
+    }
+
+
 
     /* Save cube to disk */
     char cube_path[] = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/cube.bin";
@@ -186,5 +199,5 @@ void single_image_gen() {
     g4.cmd(cmd_str);
 
     /* Stop program until we're finished looking at the results */
-    pause();
+    //    pause();
 }

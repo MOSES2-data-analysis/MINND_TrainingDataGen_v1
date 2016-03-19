@@ -5,8 +5,8 @@ input: "input"
 input_shape {
 	dim: 1
 	dim: 3
-	dim: 4
-	dim: 4
+	dim: 8
+	dim: 8
 }
 
 # First Convolutional Layer
@@ -15,14 +15,20 @@ layer {
 	type: 	"Convolution"
 	bottom: "input"
 	top: 	"conv1"
- 
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+	# learning rate and decay multipliers for the biases
+	param { lr_mult: 2 decay_mult: 0 }
+  
 	convolution_param {
-		num_output:		24
-		kernel_size:	3
+		num_output:		32
+		kernel_size:	5
 		stride:			1
     }
 }
 
+# Max pooling layer
 layer {
 	name: "pool1"
 	type: "Pooling"
@@ -36,29 +42,51 @@ layer {
 }
 
 # Second Convolutional Layer
-#layer {
-#	name: 	"conv2"
-#	type: 	"Convolution"
-#	bottom: "conv1"
-#	top: 	"conv2"
+layer {
+	name: 	"conv2"
+	type: 	"Convolution"
+	bottom: "pool1"
+	top: 	"conv2"
+	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
   
-#	convolution_param {	
-#	  	num_output:		48
-#	  	kernel_size:	2
-#	  	stride:			1
-#    }
-#}
+	convolution_param {	
+	  	num_output:		128
+	  	kernel_size:	2
+	  	stride:			1
+    }
+}
+
+# Max pooling layer
+layer {
+	name: "pool2"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "pool2"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 1
+	}
+}
 
 # First fully-connected layer
 layer {
 	name: "ip1"
 	type: "InnerProduct"
-	bottom: "pool1"
+	bottom: "pool2"
 	top: "ip1"
 	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 64
+		num_output: 192
     }
 }
 
@@ -77,11 +105,17 @@ layer {
 	bottom: "ip1"
 	top: "ip2"
 	
+	# learning rate and decay multipliers for the filters
+	param { lr_mult: 1 decay_mult: 1 }
+  	# learning rate and decay multipliers for the biases
+  	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 128	
+		num_output: 256	
     }
 }
+
+
 
 # Rectified Linear Unit layer
 layer {
@@ -104,7 +138,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 48	
+		num_output: 64	
     }
 }
 
@@ -117,9 +151,9 @@ layer {
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
-			dim: 3	
-			dim: 4
-			dim: 4 # infer it from the other dimensions
+			dim: 1	
+			dim: 8
+			dim: 8
 		}
 	}
 }

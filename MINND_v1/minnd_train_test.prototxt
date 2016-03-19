@@ -3,7 +3,7 @@ name: "MINND_v1"
 # These images are the results of the MOSES forward model
 layer{
 	name: 	"minnd_input"
-	type: 	"ImageData"
+	type: 	"Data"
 	top:	"input"
 	top:	"input_label"
 	
@@ -16,9 +16,10 @@ layer{
     	scale: 0.00390625
 	}
 	
-	image_data_param {
-		source: "/minnd/images/test/input/index.txt"
+	data_param {
+		source: "/minnd/lmdb/test/input/"
 		batch_size: 100
+		backend: LMDB
 	}
 }
 
@@ -28,7 +29,7 @@ layer{
 # These images are the input to the MOSES forward model
 layer{
 	name: 	"minnd_truth"
-	type: 	"ImageData"
+	type: 	"Data"
 	top:	"truth"
 	top:	"truth_label"
 	
@@ -41,9 +42,10 @@ layer{
     	scale: 0.00390625
 	}
 	
-	image_data_param {
-		source: "/minnd/images/test/truth/index.txt"	
+	data_param {
+		source: "/minnd/lmdb/test/truth/"	
 		batch_size: 100
+		backend: LMDB
 	}
 }
 
@@ -51,7 +53,7 @@ layer{
 
 layer{
 	name: 	"minnd_input"
-	type: 	"ImageData"
+	type: 	"Data"
 	top:	"input"
 	top:	"input_label"
 	
@@ -64,9 +66,10 @@ layer{
     	scale: 0.00390625
 	}
 	
-	image_data_param {
-		source: "/minnd/images/train/input/index.txt"
+	data_param {
+		source: "/minnd/lmdb/train/input/"
 		batch_size: 100
+		backend: LMDB
 	}
 }
 
@@ -75,7 +78,7 @@ layer{
 # These images are the input to the MOSES forward model
 layer{
 	name: 	"minnd_truth"
-	type: 	"ImageData"
+	type: 	"Data"
 	top:	"truth"
 	top:	"truth_label"
 	
@@ -88,9 +91,10 @@ layer{
     	scale: 0.00390625
 	}
 	
-	image_data_param {
-		source: "/minnd/images/train/truth/index.txt"
+	data_param {
+		source: "/minnd/lmdb/train/truth/"
 		batch_size: 100
+		backend: LMDB
 	}
 }
 
@@ -119,8 +123,8 @@ layer {
 	param { lr_mult: 2 decay_mult: 0 }
   
 	convolution_param {
-		num_output:		24
-		kernel_size:	3
+		num_output:		32
+		kernel_size:	5
 		stride:			1
 
 		weight_filler {
@@ -148,38 +152,51 @@ layer {
 }
 
 # Second Convolutional Layer
-#layer {
-#	name: 	"conv2"
-#	type: 	"Convolution"
-#	bottom: "conv1"
-#	top: 	"conv2"
+layer {
+	name: 	"conv2"
+	type: 	"Convolution"
+	bottom: "pool1"
+	top: 	"conv2"
 	
 	# learning rate and decay multipliers for the filters
-#	param { lr_mult: 1 decay_mult: 1 }
+	param { lr_mult: 1 decay_mult: 1 }
   	# learning rate and decay multipliers for the biases
-#  	param { lr_mult: 2 decay_mult: 0 }
-#  
-#	convolution_param {	
-#	  	num_output:		48
-#	  	kernel_size:	2
-#	  	stride:			1
-#	  
-#	  	weight_filler {
-#		  	type: "gaussian" # initialize the filters from a Gaussian
-#		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
-#		}
-#		bias_filler {
-#		  	type: "constant" # initialize the biases to zero (0)
-#		  	value: 0
-#		}
-#    }
-#}
+  	param { lr_mult: 2 decay_mult: 0 }
+  
+	convolution_param {	
+	  	num_output:		128
+	  	kernel_size:	2
+	  	stride:			1
+	  
+	  	weight_filler {
+		  	type: "gaussian" # initialize the filters from a Gaussian
+		  	std: 0.1       # distribution with stdev 0.01 (default mean: 0)
+		}
+		bias_filler {
+		  	type: "constant" # initialize the biases to zero (0)
+		  	value: 0
+		}
+    }
+}
+
+# Max pooling layer
+layer {
+	name: "pool2"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "pool2"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 1
+	}
+}
 
 # First fully-connected layer
 layer {
 	name: "ip1"
 	type: "InnerProduct"
-	bottom: "pool1"
+	bottom: "pool2"
 	top: "ip1"
 	
 	# learning rate and decay multipliers for the filters
@@ -188,7 +205,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 64
+		num_output: 192
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
@@ -222,7 +239,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 128	
+		num_output: 256	
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
@@ -258,7 +275,7 @@ layer {
   	param { lr_mult: 2 decay_mult: 0 }
   	
 	inner_product_param {
-		num_output: 48	
+		num_output: 64	
 	
 	  	weight_filler {
 		  	type: "gaussian" # initialize the filters from a Gaussian
@@ -280,32 +297,44 @@ layer {
 	reshape_param {
 		shape {
 			dim: 0  # copy the dimension from below
-			dim: 3	
-			dim: 4
-			dim: 4
+			dim: 1	
+			dim: 8
+			dim: 8
 		}
 	}
 }
 
-#layer {
-#	name: "reshape_truth"
-#	type: "Reshape"
-#	bottom: "truth"
-#	top: "reshape_truth"
-#	reshape_param {
-#		shape {
-#			dim: 0  # copy the dimension from below
-#			dim: 1	
-#			dim: 48
-#			dim: -1 # infer it from the other dimensions
-#		}
-#	}
-#}
+layer {
+  name: "slice_truth"
+  type: "Slice"
+  bottom: "truth"
+  ## Example of label with a shape N x 3 x 1 x 1
+  top: "truth0"
+  top: "truth1"
+  top: "truth2"
+  slice_param {
+    axis: 1
+    slice_point: 1
+    slice_point: 2
+  }
+}
+
+layer {
+	name: "silence3"
+	type: "Silence"
+	bottom: "truth1"
+}
+
+layer {
+	name: "silence4"
+	type: "Silence"
+	bottom: "truth2"
+}
 
 layer {
 	name: "loss"
 	type: "EuclideanLoss"
-	bottom: "truth"
+	bottom: "truth0"
 	bottom: "reshape_ip3"
 	top: "loss"	
 }

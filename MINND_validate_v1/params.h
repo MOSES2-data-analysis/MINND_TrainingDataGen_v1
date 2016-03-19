@@ -15,8 +15,8 @@
 #define PARAMS_H
 
 #define CHANNELS 3
-#define SPATIAL_DIM 4
-#define SPECTRAL_DIM 4
+#define SPATIAL_DIM 8
+#define SPECTRAL_DIM 8
 #define MAX_DN 255.0
 
 #endif /* PARAMS_H */

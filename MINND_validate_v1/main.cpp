@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 #include <cmath>
+#include <math.h>
 
 #include "caffe/caffe.hpp"
 
@@ -31,6 +32,8 @@
 #include "params.h"
 using std::string;
 using namespace caffe;
+
+#define DIS 350
 
 void rot90(cv::Mat &matImage, int rotflag) {
     //1=CW, 2=CCW, 3=180
@@ -60,7 +63,7 @@ int main(int argc, char** argv) {
 
     /* Set up directories */
     string model_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/minnd_deploy.prototxt";
-    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_10000.caffemodel";
+    string trained_file = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_v1/MINND_v1_iter_1000000.caffemodel";
     char input_path[] = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/cnn_cube.bin";
     char truth_path[] = "/home/byrdie/NetBeansProjects/MINND_TrainingDataGen_v1/MINND_TrainingDataGen_v1_cpp/training_data/cube.bin";
 
@@ -110,7 +113,7 @@ int main(int argc, char** argv) {
 
 
     /* Display validation image for testing */
-    cv::Mat image_chan[3] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[0]), cv::Mat(4, 4, CV_32FC1, input_cube[1]), cv::Mat(4, 4, CV_32FC1, input_cube[2])};
+    cv::Mat image_chan[3] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[2])};
 
     /* Merge channels */
     cv::Mat image;
@@ -118,6 +121,7 @@ int main(int argc, char** argv) {
 
     /* Display input image */
     cv::namedWindow("Neural Network Input", cv::WINDOW_FREERATIO); // Create a window for display.
+    cv::moveWindow("Neural Network Input", DIS, DIS);
     cv::imshow("Neural Network Input", image);
 
     /* Wrap input layer to insert into network */
@@ -173,8 +177,8 @@ int main(int argc, char** argv) {
     for (int k = 0; k < CHANNELS; k++) {
         for (int h = 0; h < SPECTRAL_DIM; h++) {
             for (int w = 0; w < SPATIAL_DIM; w++) {
-                output_cube[k][h][w] = output_row[w + SPATIAL_DIM * (h + SPECTRAL_DIM * k)];
-                diff_cube[k][h][w] = output_cube[k][h][w] - truth_cube[k][h][w];
+                output_cube[k][h][w] = output_row[w + SPATIAL_DIM * h];
+                diff_cube[k][h][w] = fabs(output_cube[k][h][w] - truth_cube[k][h][w]);
 
                 loss += diff_cube[k][h][w] * diff_cube[k][h][w];
                 if (diff_cube[k][h][w] > max) {
@@ -188,15 +192,14 @@ int main(int argc, char** argv) {
         }
 
     }
-    loss = loss / (2 * CHANNELS * SPECTRAL_DIM * SPATIAL_DIM);
+    loss = loss / (2  * SPECTRAL_DIM * SPATIAL_DIM);
     std::cout << "The Euclidean loss was: " << loss << std::endl;
     std::cout << "The Max was: " << max << std::endl;
 
     for (int k = 0; k < CHANNELS; k++) {
         for (int h = 0; h < SPECTRAL_DIM; h++) {
             for (int w = 0; w < SPATIAL_DIM; w++) {
-                diff_cube[k][h][w] = (diff_cube[k][h][w] - min) / (max - min);
-                std::cout << diff_cube[k][h][w] << " ";
+                std::cout << diff_cube[k][h][w] << "    ";
             }
             std::cout << std::endl;
         }
@@ -208,18 +211,21 @@ int main(int argc, char** argv) {
     cv::Mat out_image;
     cv::merge(out_chan, 3, out_image);
     cv::namedWindow("Neural Network Output", cv::WINDOW_FREERATIO); // Create a window for display.
+    cv::moveWindow("Neural Network Output", DIS, 2 * DIS);
     cv::imshow("Neural Network Output", out_image);
 
     cv::Mat truth_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, truth_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, truth_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, truth_cube[2])};
     cv::Mat truth_image;
     cv::merge(truth_chan, 3, truth_image);
     cv::namedWindow("Truth", cv::WINDOW_FREERATIO); // Create a window for display.
+    cv::moveWindow("Truth", 3 * DIS, DIS);
     cv::imshow("Truth", truth_image);
 
     cv::Mat diff_chan[CHANNELS] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, diff_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, diff_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, diff_cube[2])};
     cv::Mat diff_image;
     cv::merge(diff_chan, 3, diff_image);
     cv::namedWindow("Truth minus Output", cv::WINDOW_FREERATIO); // Create a window for display.
+    cv::moveWindow("Truth minus Output", 3 * DIS, 2 * DIS);
     cv::imshow("Truth minus Output", diff_image);
 
 
