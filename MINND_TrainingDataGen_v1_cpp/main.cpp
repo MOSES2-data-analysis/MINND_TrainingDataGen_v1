@@ -186,5 +186,5 @@ void single_image_gen() {
     g4.cmd(cmd_str);
 
     /* Stop program until we're finished looking at the results */
-//    pause();
+    pause();
 }
