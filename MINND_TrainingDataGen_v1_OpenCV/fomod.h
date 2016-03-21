@@ -15,8 +15,8 @@
 #define PHOMOD_H
 
 #define CHANNELS 3
-#define SPATIAL_DIM 8
-#define SPECTRAL_DIM 8
+#define SPATIAL_DIM 32
+#define SPECTRAL_DIM 32
 
 #include <stdlib.h>
 #include <iostream>

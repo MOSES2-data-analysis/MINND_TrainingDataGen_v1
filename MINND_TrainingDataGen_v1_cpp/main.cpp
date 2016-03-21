@@ -7,7 +7,7 @@
 #include "main.h"
 
 #define MAX_DN 0xFF
-#define DATASET_SZ 1e6
+#define DATASET_SZ 1e7
 #define NUMPTS 5
 
 using namespace std;

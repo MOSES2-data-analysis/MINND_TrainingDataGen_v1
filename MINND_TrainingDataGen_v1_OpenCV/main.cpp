@@ -15,8 +15,8 @@
 #include "main.h"
 
 #define MAX_DN 0xFF
-#define DATASET_SZ 1000000
-#define NUMPTS 5
+#define DATASET_SZ 2e6
+#define NUMPTS 10
 
 using namespace std;
 using namespace cv;
@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
         for (int count = 0; count < DATASET_SZ; count++) {
 
             memset(truth_cube, 0, channels * x_dim * lambda_dim * sizeof (int));
-            
+
             int numpts = numpts_dist(generator);
 
             for (int count = 0; count < numpts; count++) {
@@ -101,15 +101,15 @@ int main(int argc, char** argv) {
 
             /* Display truth image for testing */
             cv::Mat truth_image = cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, truth_cube[0]);
-//            cv::namedWindow("Truth Image", WINDOW_FREERATIO); // Create a window for display.
-//            cv::imshow("Truth Image", truth_image);
+            //            cv::namedWindow("Truth Image", WINDOW_FREERATIO); // Create a window for display.
+            //            cv::imshow("Truth Image", truth_image);
 
             /* Display input image for testing */
             cv::Mat input_image_chan[3] = {cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[0]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[1]), cv::Mat(SPATIAL_DIM, SPECTRAL_DIM, CV_32FC1, input_cube[2])};
             cv::Mat input_image;
             cv::merge(input_image_chan, 3, input_image); // Merge channels into one image
-//            cv::namedWindow("Input Image", WINDOW_FREERATIO); // Create a window for display.
-//            cv::imshow("Input Image", input_image);
+            //            cv::namedWindow("Input Image", WINDOW_FREERATIO); // Create a window for display.
+            //            cv::imshow("Input Image", input_image);
 
             /* write images to disk */
             char filename[100];
@@ -134,7 +134,9 @@ int main(int argc, char** argv) {
                 imwrite(filename, truth_image);
 
             }
-
+            if (count % 1000 == 0) {
+                std::cout << count << std::endl;
+            }
             cv::waitKey(0);
 
         }
