@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.6.29)  13 DEC 2016 22:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.6.29)  13 DEC 2016 22:37
 entering extended mode
 **./MINND_Dataset_Spec.tex
 (MINND_Dataset_Spec.tex
@@ -378,24 +378,28 @@ File: iris.jpg Graphic file (type jpg)
 Package pdftex.def Info: iris.jpg used on input line 77.
 (pdftex.def)             Requested size: 273.27304pt x 172.09425pt.
  [3]
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
+
+ []
+
 <gaintable.jpg, id=138, 455.45157pt x 283.0575pt>
 File: gaintable.jpg Graphic file (type jpg)
  <use gaintable.jpg>
-Package pdftex.def Info: gaintable.jpg used on input line 90.
+Package pdftex.def Info: gaintable.jpg used on input line 89.
 (pdftex.def)             Requested size: 273.27304pt x 169.8358pt.
 
 <obsid.jpg, id=141, 557.08125pt x 700.11563pt>
 File: obsid.jpg Graphic file (type jpg)
  <use obsid.jpg>
-Package pdftex.def Info: obsid.jpg used on input line 99.
+Package pdftex.def Info: obsid.jpg used on input line 98.
 (pdftex.def)             Requested size: 345.38681pt x 434.0672pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--103
+Underfull \hbox (badness 10000) in paragraph at lines 96--102
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--103
+Underfull \hbox (badness 10000) in paragraph at lines 96--102
 
  []
 
@@ -404,49 +408,49 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.103 				\end{figure}
+l.102 				\end{figure}
                       pdfTeX warning (ext4): destination with the same identifi
 er (name{figure.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.103 				\end{figure}
+l.102 				\end{figure}
                        <./iris.jpg> <./gaintable.jpg>] [5pdfTeX warning (ext4):
  destination with the same identifier (name{figure.5}) has been already used, d
 uplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.107 
-       <./obsid.jpg>] <IRISsample.jpg, id=160, 694.84593pt x 597.73312pt>
+l.106 
+       <./obsid.jpg>] <IRISsample.jpg, id=159, 694.84593pt x 597.73312pt>
 File: IRISsample.jpg Graphic file (type jpg)
 
 <use IRISsample.jpg>
-Package pdftex.def Info: IRISsample.jpg used on input line 116.
+Package pdftex.def Info: IRISsample.jpg used on input line 115.
 (pdftex.def)             Requested size: 319.633pt x 274.96057pt.
  [6pdfTeX warning (ext4): destination with the same identifier (name{figure.6})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.126 				\end{equation}
+l.125 				\end{equation}
                          <./IRISsample.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 126--129
+Underfull \hbox (badness 10000) in paragraph at lines 125--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 136--137
+Underfull \hbox (badness 10000) in paragraph at lines 135--136
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--142
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
 
  []
 
@@ -475,15 +479,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 11--17
  []
 
 [8])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 161.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 160.
  [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 161.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 160.
  (MINND_Dataset_Spec.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 161.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 161.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 160.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 160.
 Package rerunfilecheck Info: File `MINND_Dataset_Spec.out' has not changed.
 (rerunfilecheck)             Checksum: 3A82066EEB9852C00EEBA2643EB580E0;1539.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 161.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 160.
  ) 
 Here is how much of TeX's memory you used:
  6153 strings out of 493335
@@ -506,7 +510,7 @@ ype1/public/amsfonts/cm/cmsy10.pfb><E:/Program Files/MikiTex/fonts/type1/public
 /amsfonts/cm/cmsy7.pfb><E:/Program Files/MikiTex/fonts/type1/public/amsfonts/cm
 /cmti10.pfb><E:/Program Files/MikiTex/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 >
-Output written on MINND_Dataset_Spec.pdf (10 pages, 711972 bytes).
+Output written on MINND_Dataset_Spec.pdf (10 pages, 711458 bytes).
 PDF statistics:
  255 PDF objects out of 1000 (max. 8388607)
  51 named destinations out of 1000 (max. 500000)

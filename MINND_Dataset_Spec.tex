@@ -80,12 +80,11 @@
 					\centering
 				\end{figure}
 		
-			For all spectrograph passbands, the spatial resolution of \textit{IRIS} is 175 arcsec and for all slit-jaw channels, the spatial range is 175$\times$175 arcsec \cite{ITN1}. Spatial resolution is 0.33 arcsec (FUV) and 0.4 arcsec (NUV). Each pixel is 0.166 arcsec spatially. The spectral resolution in pixels is 12.8 m{\AA} for the FUV spectrograph and 25.6 m{\AA} for the NUV spectrograph.
+			For all spectrograph passbands, the spatial resolution of \textit{IRIS} is 175'' and for all slit-jaw channels, the spatial range is 175''$\times$175'' \cite{ITN1}. Spatial resolution is 0.33'' (FUV) and 0.4'' (NUV). Each pixel is 0.166'' spatially. The spectral resolution in pixels is 12.8 m{\AA} for the FUV spectrograph and 25.6 m{\AA} for the NUV spectrograph.
 			
 			\subsubsection{Readout Electronics}
-			The CCD properties of \textit{IRIS} are given in figure 3. These quantities are properties derived from dark exposures and flat images taken by \textit{IRIS} for a mercury light source with 2537 {\AA} filter.
+			The CCD properties of \textit{IRIS} are given in Figure 4. These quantities are properties derived from dark exposures and flat images taken by \textit{IRIS} for a mercury light source with 2537 {\AA} filter.\\
 			
-			gain factor (FUV for Si IV), shoot for estimate of $\sigma_r$
 				\begin{figure}[H]
 					\includegraphics[scale=0.6]{gaintable}
 					\centering
@@ -103,14 +102,14 @@
 				\end{figure}
 			
 						
-				Reading the OBSID is done by observing the significant digit for the parameters described in figure 5 such as cadence, raster type, and exposure times. Each parameter contains a specific value corresponding to the image type.
+				Reading the OBSID is done by observing the significant digit for the parameters described in Figure 5 such as cadence, raster type, and exposure times. Each parameter contains a specific value corresponding to the image type.
 				
 	\section{Dataset Preparation}
 			\subsection{Selecting \textit{IRIS} Images}
 				\label{IRIS Image}
 			\subsubsection{\textit{IRIS} Image Requirements}
 			
-					In order for \textit{IRIS} images to be utilized in the \textit{MINND} dataset, there is a number of physical parameters that must be met so the training is applicable to the \textit{MOSES} data. The training dataset must contain spatial and spectral images at a formation temperature that is as close as possible to that of \textit{MOSES}. The formation temperatures are between 8.5$\times$10$\textsuperscript{5}$ K and 1.6$\times$10$\textsuperscript{5}$ K for Si IV \cite{1538-4357-477-2-L119}, and 5.0$\times$10$\textsuperscript{5}$ K for Ne VII \cite{bray2005plasma}. In addition, a spectral range greater than $\pm$300 km/s is desired for the \textit{IRIS} images in conjunction with a spatial range at least a factor of three times greater than that of the necessary spectral range, due to the properties of the inversion problem (these quantities are measured in pixels). To apply the point spread function appropriately, the spatial and spectral resolution of the images need to be exceeding the resolution of \textit{MOSES}. Finally, the \textit{IRIS} images needs to have a signal-to-noise ratio of at least 10, to ensure that they are quality images that can be implemented in the \textit{MINND} training dataset. 
+					In order for \textit{IRIS} images to be utilized in the \textit{MINND} dataset, there is a number of physical parameters that must be met so the training is applicable to the \textit{MOSES} data. The training dataset must contain spatial and spectral images at a formation temperature that is as close as possible to that of \textit{MOSES}. The formation temperatures are between 8.5$\times$10$\textsuperscript{5}$ K and 1.6$\times$10$\textsuperscript{5}$ K for Si IV \cite{1538-4357-477-2-L119}, and 5.0$\times$10$\textsuperscript{5}$ K for Ne VII \cite{bray2005plasma}. In addition, a spectral range greater than $\pm$300 km/s is desired for the \textit{IRIS} images in conjunction with a spatial range at least a factor of three times greater than that of the necessary spectral range, due to the properties of the inversion problem (these quantities are measured in pixels). To apply the point spread function appropriately, the spatial and spectral resolution of the images need to be exceeding the resolution of \textit{MOSES}. Finally, the \textit{IRIS} images needs to have a Signal-to-Noise ratio of at least 10, to ensure that they are quality images that can be implemented in the \textit{MINND} training dataset. 
 								 
 					\begin{figure}[H]
 						\includegraphics[scale=0.46]{IRISsample}
